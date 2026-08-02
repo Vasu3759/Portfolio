@@ -21,7 +21,7 @@ export default function BootSequence() {
   // Position of the key
   const [keyPos, setKeyPos] = useState({ top: '50%', left: '50%' });
 
-  // Move the key randomly every 800ms
+  // Move the key randomly every 1200ms
   useEffect(() => {
     if (!hasStarted || isWon) return;
 
@@ -32,7 +32,7 @@ export default function BootSequence() {
       setKeyPos({ top, left });
     };
 
-    const intervalId = setInterval(moveKey, 800);
+    const intervalId = setInterval(moveKey, 1200);
     return () => clearInterval(intervalId);
   }, [hasStarted, isWon]);
 
