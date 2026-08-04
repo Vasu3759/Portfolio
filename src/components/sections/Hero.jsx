@@ -65,19 +65,20 @@ export default function Hero() {
 
   const getMenuItems = () => {
     if (view === 'home') {
-      return ['projects', 'profile', 'notebook', 'terminal', 'socials', 'resume'];
+      return ['projects', 'internship', 'profile', 'notebook', 'terminal', 'socials', 'resume'];
     } else if (view === 'socials') {
       return ['github', 'linkedin', 'leetcode', 'back'];
     } else if (view === 'projects') {
-      return ['assetflow', 'spotify', 'back'];
+      return ['assetflow', 'agriyield', 'vasooli', 'back'];
     } else if (view === 'notebook') {
-      return ['ABOUT_ME.log', 'VASOOLI_AI.log', 'SPOTIFY_CLONE.log', 'back'];
+      return ['ABOUT_ME.log', 'INTERNSHIPS.log', 'AGRIYIELD.log', 'VASOOLI_AI.log', 'back'];
     }
     return [];
   };
 
   const triggerMenuAction = (action) => {
     if (action === 'projects') changeView('projects');
+    else if (action === 'internship') changeView('internship');
     else if (action === 'profile') changeView('profile');
     else if (action === 'notebook') changeView('notebook');
     else if (action === 'terminal') changeView('terminal');
@@ -103,11 +104,15 @@ export default function Hero() {
       try { playSound('switch'); } catch(e) {}
       window.open('https://assetflow-0725.onrender.com/login', '_blank');
     }
-    else if (action === 'spotify') {
+    else if (action === 'agriyield') {
       try { playSound('switch'); } catch(e) {}
-      window.open('https://github.com/Vasu3759/Spotify_backend_Clone', '_blank');
+      window.open('https://github.com/Vasu3759', '_blank');
     }
-    else if (action === 'ABOUT_ME.log' || action === 'VASOOLI_AI.log' || action === 'SPOTIFY_CLONE.log') {
+    else if (action === 'vasooli') {
+      try { playSound('switch'); } catch(e) {}
+      window.open('https://github.com/Vasu3759', '_blank');
+    }
+    else if (action === 'ABOUT_ME.log' || action === 'INTERNSHIPS.log' || action === 'AGRIYIELD.log' || action === 'VASOOLI_AI.log') {
       setSelectedFile(action);
       try { playSound('paper'); } catch(e) {}
     }
@@ -115,6 +120,7 @@ export default function Hero() {
 
   const homeItems = [
     { id: 'projects', label: 'PROJECTS' },
+    { id: 'internship', label: 'INTERNSHIPS' },
     { id: 'profile', label: 'PROFILE' },
     { id: 'notebook', label: 'NOTEBOOK' },
     { id: 'terminal', label: 'TERMINAL' },
@@ -131,7 +137,8 @@ export default function Hero() {
 
   const projectsItems = [
     { id: 'assetflow', label: 'ASSETFLOW - ENTERPRISE ASSET SYSTEM' },
-    { id: 'spotify', label: 'SPOTIFY CLONE - STREAMING BACKEND' },
+    { id: 'agriyield', label: 'AGRIYIELD - AI SMART FARMING PLATFORM' },
+    { id: 'vasooli', label: 'VASOOLI AI - FEE COLLECTION PLATFORM' },
     { id: 'back', label: 'RETURN TO SYSTEM HOME' }
   ];
 
@@ -158,7 +165,6 @@ export default function Hero() {
                   triggerMenuAction(item.id);
                 } else {
                   setMenuIndex(idx);
-                  try { playSound('keyboard'); } catch(e) {}
                 }
               }}
               onMouseEnter={() => setMenuIndex(idx)}
@@ -216,8 +222,35 @@ export default function Hero() {
       "- Code quality: Works fine, do not ask how",
       "- Sleep cycles: Deprecated",
       "",
-      "Focusing on backend systems, REST APIs, and automating",
-      "complex workflows using Docker, Redis, and message queues."
+      "Focusing on backend systems, REST APIs, microservices, and AI-integrated",
+      "platforms using Node.js, Express, FastAPI, Docker, Redis, and BullMQ."
+    ],
+    'INTERNSHIPS.log': [
+      "================= LOG: WORK_EXPERIENCE =================",
+      "1. Software Development Engineer (Full Stack) Intern — ChalksnBoard",
+      "   Duration: June 2026 – Present",
+      "   - Modernized ChalksnBoard website migrating to React.js and Next.js.",
+      "   - Implemented interactive scroll animations with Framer Motion, GSAP & Three.js.",
+      "   - Building Vasooli AI (Node.js, Express, MongoDB, JWT, WhatsApp/Twilio APIs, Redis, BullMQ).",
+      "   - Containerized backend services with Docker & AI voice tech (Edge TTS, Coqui, LiveKit).",
+      "",
+      "2. Full Stack / AI Developer Intern — AICTE",
+      "   Duration: June 2026 – July 2026",
+      "   - 6-week internship developing AgriYield (React Native, Node.js, FastAPI, MongoDB).",
+      "   - Engineered microservices architecture with Python FastAPI & Node.js REST APIs.",
+      "   - Integrated OpenWeather API & OGD India API for real-time agricultural data.",
+      "   - Automated Android APK builds using GitHub Actions & Expo CLI, deployed on Render."
+    ],
+    'AGRIYIELD.log': [
+      "================= LOG: AGRIYIELD_DEV =================",
+      "Stack: React Native, Expo, Node.js, Express, FastAPI, MongoDB, Docker, Render",
+      "",
+      "Platform Analysis:",
+      "- End-to-end AI-powered smart farming platform.",
+      "- Built XGBoost ML microservice exposed via FastAPI (14 soil/env params).",
+      "- Implemented JWT Auth, bcrypt hashing, and MongoDB historical prediction storage.",
+      "- Integrated OpenWeather API (GPS weather) & OGD India API (live commodity prices).",
+      "- Designed bilingual (English/Hindi) mobile UI with glassmorphism styling."
     ],
     'VASOOLI_AI.log': [
       "================= LOG: VASOOLI_AI_DEV =================",
@@ -229,16 +262,6 @@ export default function Hero() {
       "- Integrated WhatsApp & Twilio SMS notification queues.",
       "- Scheduled background processing using Redis & BullMQ.",
       "- Containerized deployment environment using Docker."
-    ],
-    'SPOTIFY_CLONE.log': [
-      "================= LOG: SPOTIFY_CLONE =================",
-      "Stack: Node.js, Express, MongoDB Atlas, JWT",
-      "",
-      "System Summary:",
-      "- Built scalable backend streaming infrastructure.",
-      "- Configured secure JWT-based auth and middleware guards.",
-      "- Engineered optimized database schemas for music assets.",
-      "- Integrated Cloudinary for media storage pipeline."
     ]
   };
 
@@ -283,6 +306,7 @@ export default function Hero() {
           "Available terminal options:",
           "  help           - Displays this command menu",
           "  projects       - Transitions screen to PROJECTS",
+          "  internship     - Transitions screen to INTERNSHIPS",
           "  profile        - Transitions screen to PROFILE",
           "  socials        - Transitions screen to SOCIALS",
           "  notebook       - Transitions screen to NOTEBOOK (MS-DOS Edit)",
@@ -303,6 +327,12 @@ export default function Hero() {
       case 'projects':
         changeView('projects');
         newHistory.push("Redirecting to [PROJECTS] index...");
+        break;
+      case 'internship':
+      case 'internships':
+      case 'experience':
+        changeView('internship');
+        newHistory.push("Redirecting to [INTERNSHIPS] index...");
         break;
       case 'profile':
         changeView('profile');
@@ -426,9 +456,8 @@ export default function Hero() {
           { y: 30, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.5 }
         );
-        try { playSound('keyboard'); } catch (err) { }
       }
-    }, 3000);
+    }, 5000);
 
     return () => {
       clearInterval(roleInterval);
@@ -594,10 +623,11 @@ export default function Hero() {
                     <div className={styles.profileSection}>
                       <span className={styles.sectionHeader}>[ TECHNICAL EXPERTISE (THINGS_I_FIGHT_DAILY) ]</span>
                       <ul className={styles.profileList}>
-                        <li><strong>Languages:</strong> C++, Java, Python, SQL, HTML (and CSS, which is a programming language if you cry enough)</li>
-                        <li><strong>Backend:</strong> Node.js, Express, Redis, BullMQ (Basically orchestrating clean, controlled server crashes)</li>
-                        <li><strong>Frontend:</strong> React, Next.js, GSAP, Three.js (Over-complicating user interfaces for the aesthetics)</li>
-                        <li><strong>DevOps:</strong> Docker ("It works on my machine" packaged into containerized shipping formats)</li>
+                        <li><strong>Languages:</strong> C++, Java, Python, JavaScript, SQL, HTML/CSS</li>
+                        <li><strong>Frontend:</strong> React.js, Next.js, React Native (Expo), Framer Motion, GSAP, Three.js, Tailwind CSS</li>
+                        <li><strong>Backend:</strong> Node.js, Express.js, Python FastAPI, REST APIs, JWT Auth, Prisma ORM, BullMQ, Cron Jobs</li>
+                        <li><strong>Databases & AI:</strong> PostgreSQL, MongoDB Atlas, Redis, Supabase, Gemini API, XGBoost</li>
+                        <li><strong>DevOps & Tools:</strong> Docker, Git, GitHub Actions, Postman, Render, Vercel, Expo CLI</li>
                       </ul>
                     </div>
 
@@ -617,6 +647,46 @@ export default function Hero() {
               </div>
             )}
 
+            {view === 'internship' && (
+              <div className={styles.menuView}>
+                <h2 className={styles.menuTitle}>[ WORK_EXPERIENCE_LOGS ]</h2>
+                <div className={styles.scrollContainer}>
+                  <div className={styles.scrollContent}>
+                    <div className={styles.profileSection}>
+                      <span className={styles.sectionHeader}>1. ChalksnBoard — Software Development Engineer Intern</span>
+                      <div style={{ color: 'var(--color-crt-green)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                        [ June 2026 – Present ] | React, Next.js, Framer Motion, GSAP, Node.js, Express, MongoDB, Docker
+                      </div>
+                      <ul className={styles.profileList}>
+                        <li>Spearheaded modernization of ChalksnBoard website by migrating to scalable React.js & Next.js.</li>
+                        <li>Implemented interactive scroll animations & responsive layouts using Framer Motion, GSAP & Three.js.</li>
+                        <li>Developing <strong>Vasooli AI</strong> (AI fee collection platform with Node.js, Express, MongoDB, JWT).</li>
+                        <li>Built REST APIs with WhatsApp (Interakt), Twilio, Redis & BullMQ for automated workflows.</li>
+                        <li>Containerized backend services with Docker & explored AI voice tech (Edge TTS, Coqui, LiveKit).</li>
+                      </ul>
+                    </div>
+
+                    <div className={styles.profileSection}>
+                      <span className={styles.sectionHeader}>2. AICTE — Full Stack / AI Developer Intern</span>
+                      <div style={{ color: 'var(--color-crt-green)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                        [ June 2026 – July 2026 ] | React Native, Expo, Python FastAPI, Node.js, Express, MongoDB, Render
+                      </div>
+                      <ul className={styles.profileList}>
+                        <li>Completed 6-week internship developing <strong>AgriYield</strong> (AI-powered smart farming platform).</li>
+                        <li>Engineered microservices architecture with Node.js/Express APIs and Python FastAPI ML services.</li>
+                        <li>Integrated OpenWeather API for GPS weather retrieval & OGD India API for live market prices.</li>
+                        <li>Automated Android APK builds using GitHub Actions & Expo CLI, deployed microservices on Render.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <button className={`${styles.terminalLink} ${styles.backLink}`} onClick={() => changeView('home')}>
+                  <span className={styles.cursorIcon}>&lt;</span> BACK
+                </button>
+              </div>
+            )}
+
             {view === 'projects' && (
               <div className={styles.menuView}>
                 <h2 className={styles.menuTitle}>PROJECT ARCHIVE </h2>
@@ -625,7 +695,7 @@ export default function Hero() {
                 </div>
                 <div className={styles.projectList}>
                   <div className={styles.projectItemStatic}>
-                    <strong>Vasooli AI</strong> - Fee collection platform using Node.js & Express.
+                    <strong>AgriYield</strong> - AI Smart Farming Platform (React Native, FastAPI, Node.js).
                   </div>
                   {renderRollingMenu(projectsItems, menuIndex)}
                 </div>

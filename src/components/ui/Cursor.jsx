@@ -71,7 +71,7 @@ export default function Cursor() {
   }
 
   return (
-    <>
+    <div style={{ pointerEvents: 'none' }}>
       <div 
         ref={cursorRef} 
         className={`${styles.cursor} ${isPointer ? styles.pointer : ''}`} 
@@ -80,6 +80,6 @@ export default function Cursor() {
         ref={cursorDotRef} 
         className={`${styles.cursorDot} ${isPointer ? styles.pointerDot : ''}`} 
       />
-    </>
+    </div>
   );
 }
