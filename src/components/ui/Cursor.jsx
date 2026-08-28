@@ -3,19 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './Cursor.module.css';
 
-const LERP_FACTOR_OUTER = 0.08; // Smooth trailing outer ring
-const LERP_FACTOR_INNER = 0.25; // Snappy responsive inner dot
+const LERP_FACTOR = 0.2; // Snappy responsiveness for blueprint alignment
 
 export default function Cursor() {
-  const cursorRef = useRef(null);
-  const cursorDotRef = useRef(null);
-  const [isPointer, setIsPointer] = useState(false);
+  const containerRef = useRef(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
+  const [isPointer, setIsPointer] = useState(false);
+  const [hoverTag, setHoverTag] = useState('');
 
   const mouse = useRef({ x: 0, y: 0 });
   const cursorVal = useRef({ x: 0, y: 0 });
-  const dotVal = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     setMounted(true);
@@ -39,24 +38,29 @@ export default function Cursor() {
       if (!hasMoved) {
         cursorVal.current.x = clientX;
         cursorVal.current.y = clientY;
-        dotVal.current.x = clientX;
-        dotVal.current.y = clientY;
+        setCoords({ x: clientX, y: clientY });
         hasMoved = true;
       }
     };
  
     const onMouseOver = (e) => {
       const target = e.target;
-      if (
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        window.getComputedStyle(target).cursor === 'pointer'
-      ) {
+      const anchor = target.closest('a');
+      const button = target.closest('button');
+      
+      if (anchor || button || window.getComputedStyle(target).cursor === 'pointer') {
         setIsPointer(true);
+        const text = (anchor?.innerText || button?.innerText || target.innerText || '').toUpperCase();
+        if (text.includes('RESUME')) {
+          setHoverTag('ENGAGE.RESUME');
+        } else if (target.className?.includes('medallion') || anchor?.className?.includes('medallion')) {
+          setHoverTag('ENGAGE.SOCIAL');
+        } else {
+          setHoverTag('ENGAGE.OBJECT');
+        }
       } else {
         setIsPointer(false);
+        setHoverTag('');
       }
     };
  
@@ -67,18 +71,18 @@ export default function Cursor() {
     const tick = () => {
       if (hasMoved) {
         // Smoothly interpolate positions
-        cursorVal.current.x = lerp(cursorVal.current.x, mouse.current.x, LERP_FACTOR_OUTER);
-        cursorVal.current.y = lerp(cursorVal.current.y, mouse.current.y, LERP_FACTOR_OUTER);
-        
-        dotVal.current.x = lerp(dotVal.current.x, mouse.current.x, LERP_FACTOR_INNER);
-        dotVal.current.y = lerp(dotVal.current.y, mouse.current.y, LERP_FACTOR_INNER);
+        cursorVal.current.x = lerp(cursorVal.current.x, mouse.current.x, LERP_FACTOR);
+        cursorVal.current.y = lerp(cursorVal.current.y, mouse.current.y, LERP_FACTOR);
+
+        // Update coordinates state for displaying inside the tag
+        setCoords({
+          x: Math.round(cursorVal.current.x),
+          y: Math.round(cursorVal.current.y)
+        });
 
         // Apply hardware-accelerated transforms
-        if (cursorRef.current) {
-          cursorRef.current.style.transform = `translate3d(${cursorVal.current.x}px, ${cursorVal.current.y}px, 0) translate(-50%, -50%)`;
-        }
-        if (cursorDotRef.current) {
-          cursorDotRef.current.style.transform = `translate3d(${dotVal.current.x}px, ${dotVal.current.y}px, 0) translate(-50%, -50%)`;
+        if (containerRef.current) {
+          containerRef.current.style.transform = `translate3d(${cursorVal.current.x}px, ${cursorVal.current.y}px, 0)`;
         }
       }
 
@@ -102,15 +106,26 @@ export default function Cursor() {
   }
 
   return (
-    <div style={{ pointerEvents: 'none' }}>
-      <div 
-        ref={cursorRef} 
-        className={`${styles.cursor} ${isPointer ? styles.pointer : ''}`} 
-      />
-      <div 
-        ref={cursorDotRef} 
-        className={`${styles.cursorDot} ${isPointer ? styles.pointerDot : ''}`} 
-      />
+    <div 
+      ref={containerRef}
+      className={styles.blueprintCursorContainer}
+      style={{ pointerEvents: 'none' }}
+    >
+      {/* Full screen vertical crosshair line */}
+      <div className={`${styles.crosshairV} ${isPointer ? styles.pointerV : ''}`} />
+      
+      {/* Full screen horizontal crosshair line */}
+      <div className={`${styles.crosshairH} ${isPointer ? styles.pointerH : ''}`} />
+
+      {/* Center target ring */}
+      <div className={`${styles.targetRing} ${isPointer ? styles.targetRingActive : ''}`} />
+
+      {/* Coordinate Display Tag */}
+      <div className={`${styles.blueprintInfoTag} ${isPointer ? styles.infoTagActive : ''}`}>
+        <span className={styles.coordinateText}>
+          {isPointer ? hoverTag : `LOC: ${String(coords.x).padStart(3, '0')} / ${String(coords.y).padStart(3, '0')}`}
+        </span>
+      </div>
     </div>
   );
 }

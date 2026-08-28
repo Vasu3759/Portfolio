@@ -1,42 +1,88 @@
-.cursor {
+/* Container wrapper */
+.blueprintCursorContainer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 16px;
-  height: 16px;
-  border: 1.5px solid #ffffff; /* White color for dynamic mix-blend-mode inversion */
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
   pointer-events: none;
   z-index: 9999999;
-  mix-blend-mode: difference;
-  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, background-color 0.3s;
+  will-change: transform;
 }
 
-.cursorDot {
-  position: fixed;
+/* Full screen vertical line */
+.crosshairV {
+  position: absolute;
+  top: -100vh;
+  left: 0;
+  width: 1px;
+  height: 200vh;
+  background-color: rgba(156, 128, 94, 0.12); /* Semi-transparent gold-bronze */
+  pointer-events: none;
+  transition: background-color 0.25s, width 0.25s;
+}
+
+/* Full screen horizontal line */
+.crosshairH {
+  position: absolute;
+  top: 0;
+  left: -100vw;
+  width: 200vw;
+  height: 1px;
+  background-color: rgba(156, 128, 94, 0.12); /* Semi-transparent gold-bronze */
+  pointer-events: none;
+  transition: background-color 0.25s, height 0.25s;
+}
+
+/* Hover Pointer modifications for crosshairs */
+.pointerV {
+  background-color: var(--color-accent);
+  width: 1.5px;
+}
+.pointerH {
+  background-color: var(--color-accent);
+  height: 1.5px;
+}
+
+/* Precise center target ring */
+.targetRing {
+  position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
-  height: 4px;
-  background-color: #ffffff; /* White color for dynamic mix-blend-mode inversion */
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-text);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999999;
-  mix-blend-mode: difference;
-  transition: transform 0.2s;
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
 }
 
-.pointer {
-  width: 32px;
-  height: 32px;
-  border-color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
+.targetRingActive {
+  width: 20px;
+  height: 20px;
+  border-color: var(--color-accent);
+  background-color: rgba(156, 128, 94, 0.05);
 }
 
-.pointerDot {
-  transform: translate(-50%, -50%) scale(1.5);
-  background-color: #ffffff;
+/* Monospaced blueprint tag block */
+.blueprintInfoTag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: var(--color-text);
+  color: var(--bg-color);
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+.infoTagActive {
+  background-color: var(--color-accent);
+  color: var(--bg-color);
 }
